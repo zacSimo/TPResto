@@ -13,7 +13,8 @@
         android:id="@+id/textView"
         android:textSize="15dp"
         android:layout_below="@+id/textView2"
-        android:layout_toEndOf="@+id/textBouton" />
+        android:layout_toEndOf="@+id/textBouton"
+        android:textStyle="bold" />
 
 
     <TextView
@@ -24,7 +25,9 @@
         android:drawableTop="@drawable/img_rond"
         android:id="@+id/textBouton"
         android:layout_marginTop="10dp"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:foregroundGravity="center"
+        android:gravity="center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,16 +35,18 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
         android:id="@+id/textView2"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
 
-    <ImageView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:src="@drawable/ic_place_24dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Connecté"
+        android:drawableLeft="@drawable/ic_place_24dp"
+        android:id="@+id/place_connecte"
         android:layout_below="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:text="Connecté"/>
+        android:layout_toEndOf="@+id/textBouton"
+        android:gravity="bottom" />
 
 </RelativeLayout>

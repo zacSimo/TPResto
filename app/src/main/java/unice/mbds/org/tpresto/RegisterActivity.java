@@ -1,27 +1,42 @@
 package unice.mbds.org.tpresto;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import unice.mbds.org.tpresto.model.Person;
 
 import static java.lang.Character.isDigit;
 
 public class RegisterActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
-    private RadioButton rbm,rbf;
+    private RadioButton rbm, rbf;
     private Button seConnecter;
     private EditText etNom;
     private EditText etPreNom;
@@ -30,10 +45,10 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText usr;
     private EditText pwd1;
     private EditText pwd2;
+    protected Person person;
 
-
-    public static boolean checkTelephoneNumber(View v,String tel){
-        if(tel.length()==10) {
+    public static boolean checkTelephoneNumber(View v, String tel) {
+        if (tel.length() == 10) {
             for (int i = 0; i < tel.length(); i++) {
                 if (!isDigit(tel.charAt(i))) {
                     alertDialog(v, "Telephone Number", "Numero à 10 chiffres sans caractères");
@@ -41,13 +56,13 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
             return true;
+        } else {
+            alertDialog(v, "Telephone Number", "Numero à 10 chiffres sans caractères");
+            return false;
         }
-        else {
-                    alertDialog(v, "Telephone Number", "Numero à 10 chiffres sans caractères");
-                    return false;
-                }
 
     }
+
     public static boolean isValidEmailAddress(String emailAddress) {
         String emailRegEx;
         Pattern pattern;
@@ -62,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
     }
 
-    public static void alertDialog(View v,String titre, String contenu){
+    public static void alertDialog(View v, String titre, String contenu) {
         AlertDialog show = new AlertDialog.Builder(v.getContext())
                 .setTitle(titre)
                 .setMessage(contenu)
@@ -79,6 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,21 +119,26 @@ public class RegisterActivity extends AppCompatActivity {
         pwd1 = (EditText) findViewById(R.id.editText5);
         pwd2 = (EditText) findViewById(R.id.editText6);
         seConnecter = (Button) findViewById(R.id.button4);
-        rbf = (RadioButton)findViewById(R.id.radioButton2);
+        rbf = (RadioButton) findViewById(R.id.radioButton2);
         rbm = (RadioButton) findViewById(R.id.radioButton);
 
         seConnecter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Intent intent = new Intent(v.getContext(),LoginActivity.class);
-                if((etNom.getText().toString()!= "") &&
-                        (etPreNom.getText().toString()!= "") &&
-                        (tel.getText().toString()!= "") &&
-                        (email.getText().toString()!= "") &&
-                        (pwd1.getText().toString()!= "") &&
-                        (pwd2.getText().toString()!= "")){
-
-                    intent.putExtra("Nom",etNom.getText().toString());
+                final Intent intent = new Intent(v.getContext(), LoginActivity.class);
+                if ((etNom.getText().toString() != "") &&
+                        (etPreNom.getText().toString() != "") &&
+                        (tel.getText().toString() != "") &&
+                        (email.getText().toString() != "") &&
+                        (pwd1.getText().toString() != "") &&
+                        (pwd2.getText().toString() != "")) {
+                    String sexe = "";
+                    if(rbm.isChecked()) sexe = "M";
+                    else if(rbf.isChecked()) sexe = "F";
+                    person = new Person(etNom.getText().toString(),etPreNom.getText().toString(),sexe,tel.getText().toString(),
+                            email.getText().toString(),pwd1.getText().toString(),"Zac&Soufiane" );
+                    new MyTask().execute();
+                    /*intent.putExtra("Nom",etNom.getText().toString());
                     intent.putExtra("Prenom",etPreNom.getText().toString());
                     intent.putExtra("Telephone", tel.getText().toString());
                     intent.putExtra("email", email.getText().toString());
@@ -144,114 +165,103 @@ public class RegisterActivity extends AppCompatActivity {
                                             startActivity(intent);
                                         }
                                        else alertDialog(v, "Sexe","Choisir le sexe");
+                    */
 
-                }
-                else
-                alertDialog(v, "Champs vides","Veuillez vérifier les champs vides");
+                } else
+                    alertDialog(v, "Champs vides", "Veuillez vérifier les champs vides");
             }
         });
-    };
     }
 
-//    class MyTask extends AsyncTask<Void,Void,Void> {
-//        protected Exception exception = null;
-//        protected String ResultString = "";
-//        @Override
-//        protected String doInBackground(Void... voids) {
-//            URL url;
-//            HttpURLConnection urlConnection = null;
-//            try {
-//                url = new URL(" http://92.243.14.22/person/");
-//                urlConnection = (HttpURLConnection) url.openConnection();
-//                urlConnection.setRequestMethod("POST");
-//                // InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-//                // String stream_url = IOUtils.toString(in, "UTF-8");
-//                //urlConnection.disconnect();
-//
-//                //return stream_url;
-//
-//                // HttpClient client = new DefaultHttpClient();
-//                // HttpPost post = new HttpPost(url);
-//
-//                // add header
-//                urlConnection.setRequestProperty("Content-Type", "application/json");
-//                // post.setHeader("Content-Type", "application/json");
-//                JSONObject obj = new JSONObject();
-//                obj.put("prenom", "Amosse");
-//                obj.put("nom", "Edouard");
-//                obj.put("sexe", "M");
-//                obj.put("email", "eamosse@gmail.com");
-//                obj.put("tel", "0123456789");
-//                obj.put("password", "1234");
-//
-//                urlConnection.connect();
-//                // create data output stream
-//                DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
-//                // write to the output stream from the string
-//                wr.writeBytes(obj.toString());
-//                wr.flush();
-//                wr.close();
-//
-//                //HttpResponse response = client.execute(post);
-//                InputStream input = urlConnection.getInputStream();
-//                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-//                StringBuilder result = new StringBuilder();
-//                String line;
-//
-//                while ((line = reader.readLine()) != null) {
-//                    result.append(line);
-//                }
-//                Log.d("doInBackground(Resp)", result.toString());
-//                // response = new JSONObject(result.toString());
-//
-//                ResultString = result.toString();
-//                System.out.println(result.toString());
-//                return ResultString;
-//            } catch (Exception e) {
-//                urlConnection.disconnect();
-//            }
-//            return ResultString;
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//
-//            showProgressDialog(true);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String theResponse) {
-//            super.onPostExecute(aVoid);
-//            super.onPostExecute(aVoid);
-//            showProgressDialog(false);
-//            Toast.makeText(this, R.string.inscription_ok, Toast.LENGTH_LONG).show();
-//        }
-//
-//        ProgressDialog progressDialog = null;
-//        public void showProgressDialog(boolean isVisible) {
-//            if (isVisible) {
-//                if(progressDialog==null) {
-//                    progressDialog = new ProgressDialog(this);
-//                    progressDialog.setMessage(this.getResources().getString(R.string.please_wait));
-//                    progressDialog.setCancelable(false);
-//                    progressDialog.setIndeterminate(true);
-//                    progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                        @Override
-//                        public void onDismiss(DialogInterface dialog) {
-//                            progressDialog = null;
-//                        }
-//                    });
-//                    progressDialog.show();
-//                }
-//            }
-//            else {
-//                if(progressDialog!=null) {
-//                    progressDialog.dismiss();
-//                }
-//            }
-//        }
+    class MyTask extends AsyncTask<String, String, String> {
+        protected Exception exception = null;
+        protected String ResultString = "";
 
-//    }
+        @Override
+        protected String doInBackground(String... voids) {
+            String url = "http://92.243.14.22/person/";
+            HttpClient client = null;
+            try {
+                client = new DefaultHttpClient();
+                HttpPost post = new HttpPost(url);
+
+                // add header
+
+                post.setHeader("Content-Type", "application/json");
+                JSONObject obj = new JSONObject();
+                obj.put("prenom", person.getPrenom());
+                obj.put("nom", person.getNom());
+                obj.put("sexe", person.getSexe());
+                obj.put("email", person.getEmail());
+                obj.put("tel", person.getTelephone());
+                obj.put("password", person.getPassword());
+                obj.put("createdBy", person.getCreatedBy());
+
+                StringEntity entity = new StringEntity(obj.toString());
+
+
+                post.setEntity(entity);
+                HttpResponse response = client.execute(post);
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(response.getEntity().getContent()));
+
+                StringBuffer result = new StringBuffer();
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+                Log.d("doInBackground(Resp)", result.toString());
+                // response = new JSONObject(result.toString());
+
+                ResultString = result.toString();
+                System.out.println(result.toString());
+                return ResultString;
+            } catch (Exception e) {
+
+            }
+            return ResultString;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            showProgressDialog(true);
+        }
+
+        @Override
+        protected void onPostExecute(String theResponse) {
+            super.onPostExecute(theResponse);
+            showProgressDialog(false);
+            Toast.makeText(RegisterActivity.this, R.string.inscription_ok, Toast.LENGTH_LONG).show();
+
+        }
+
+        ProgressDialog progressDialog = null;
+
+        public void showProgressDialog(boolean isVisible) {
+            if (isVisible) {
+                if (progressDialog == null) {
+                    progressDialog = new ProgressDialog(RegisterActivity.this);
+                    progressDialog.setMessage(RegisterActivity.this.getResources().getString(R.string.please_wait));
+                    progressDialog.setCancelable(false);
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            progressDialog = null;
+                        }
+                    });
+                    progressDialog.show();
+                }
+            } else {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+            }
+        }
+
+    }
+}
 
 
