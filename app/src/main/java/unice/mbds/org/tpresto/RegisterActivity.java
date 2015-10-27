@@ -234,7 +234,7 @@ public class RegisterActivity extends AppCompatActivity {
             super.onPostExecute(theResponse);
             showProgressDialog(false);
             Toast.makeText(RegisterActivity.this, R.string.inscription_ok, Toast.LENGTH_LONG).show();
-
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
         }
 
         ProgressDialog progressDialog = null;
