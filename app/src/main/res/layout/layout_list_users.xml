@@ -33,20 +33,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/supression"
-        android:layout_below="@+id/NomPrenom"
-        android:layout_alignParentEnd="true"
-        android:text="supression" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Connecté"
         android:drawableLeft="@drawable/ic_place_24dp"
         android:id="@+id/connexion"
         android:layout_below="@+id/NomPrenom"
         android:layout_toEndOf="@+id/button"
         android:gravity="bottom" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_below="@+id/NomPrenom"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
