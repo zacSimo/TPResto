@@ -12,10 +12,19 @@ public class Person {
     private String password;
     private String createdBy;
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    private boolean status;
     public Person() {
     }
 
-    public Person(String nom, String prenom, String sexe, String telephone, String email, String password, String createdBy) {
+    public Person(String nom, String prenom, String sexe, String telephone, String email, String password, String createdBy, boolean status) {
         this.nom = nom;
         this.prenom = prenom;
         this.sexe = sexe;
@@ -23,6 +32,8 @@ public class Person {
         this.email = email;
         this.password = password;
         this.createdBy = createdBy;
+        this.status = status;
+
     }
 
     public String getNom() {

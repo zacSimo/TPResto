@@ -12,10 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -101,7 +103,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +111,16 @@ public class RegisterActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
+        String [] countries = getResources().getStringArray(R.array.country_arrays);
+        Spinner sp = (Spinner) findViewById(R.id.spinnerCountry);
+        //Créer l'adapteur
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, countries);
+        //Associer l'adapteur à l'instance de la vue de groupe
+        sp.setAdapter(dataAdapter);
+        //Instance d'un layout inflater
+        //LayoutInflater inflater = (LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE);
+        //Utiliser l'inflater pour récupérer une vue à partir      d'un layout
+       // View rowView = inflater.inflate(R.layout.rowlayout,  parent, false);
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         etNom = (EditText) findViewById(R.id.editText);
         etPreNom = (EditText) findViewById(R.id.editText2);
@@ -133,8 +143,34 @@ public class RegisterActivity extends AppCompatActivity {
                         (pwd1.getText().toString() != "") &&
                         (pwd2.getText().toString() != "")) {
                     String sexe = "";
-                    if(rbm.isChecked()) sexe = "M";
-                    else if(rbf.isChecked()) sexe = "F";
+                    if(checkTelephoneNumber(v, tel.getText().toString()))
+                        if(!isValidEmailAddress(email.getText().toString()))
+                            alertDialog(v,"Email Address","Adresse Email Non valide");
+                        else if(!pwd1.getText().toString().equals(pwd2.getText().toString()))
+                            alertDialog(v, "Password", "Password différentes");
+                        else  if(rbf.isChecked()){
+//                            intent.putExtra("Sexe","Feminin");
+////                                            if(v.getId()==R.id.register){
+////                                               //Valider votre formulaire
+////                                               new MyTask().execute();
+////                                            }
+//                            startActivity(intent);
+                             sexe = "F";
+                        }
+                        else  if(rbm.isChecked()) {
+//                            intent.putExtra("Sexe","Masculin");
+////                                               if(v.getId()==R.id.register){
+////                                                   //Valider votre formulaire
+////                                                   new MyTask().execute();
+////                                               }
+//                            startActivity(intent);
+                              sexe = "M";
+                        }
+                        else alertDialog(v, "Sexe","Choisir le sexe");
+
+
+
+
                     person = new Person(etNom.getText().toString(),etPreNom.getText().toString(),sexe,tel.getText().toString(),
                             email.getText().toString(),pwd1.getText().toString(),"Zac&Soufiane" );
                     new MyTask().execute();

@@ -10,11 +10,11 @@
 
     <TextView android:text="Andre Michel" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
+        android:id="@+id/NomPrenom"
         android:textSize="15dp"
-        android:layout_below="@+id/textView2"
-        android:layout_toEndOf="@+id/textBouton"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/button"
+        android:layout_toEndOf="@+id/button" />
 
 
     <TextView
@@ -23,7 +23,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Bouton"
         android:drawableTop="@drawable/img_rond"
-        android:id="@+id/textBouton"
+        android:id="@+id/button"
         android:layout_marginTop="10dp"
         android:layout_alignParentStart="true"
         android:foregroundGravity="center"
@@ -33,10 +33,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/textView2"
+        android:id="@+id/supression"
+        android:layout_below="@+id/NomPrenom"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true" />
+        android:text="supression" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,9 +44,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Connecté"
         android:drawableLeft="@drawable/ic_place_24dp"
-        android:id="@+id/place_connecte"
-        android:layout_below="@+id/textView"
-        android:layout_toEndOf="@+id/textBouton"
+        android:id="@+id/connexion"
+        android:layout_below="@+id/NomPrenom"
+        android:layout_toEndOf="@+id/button"
         android:gravity="bottom" />
 
 </RelativeLayout>
