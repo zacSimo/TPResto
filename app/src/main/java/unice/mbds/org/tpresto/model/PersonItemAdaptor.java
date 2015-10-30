@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public class PersonItemAdaptor extends BaseAdapter {
             v = View.inflate(context, R.layout.layout_list_users, null);
             viewHolder = new PersonViewHolder();
             viewHolder.nom_prenom= (TextView)v.findViewById(R.id.NomPrenom);
-            viewHolder.supression= (TextView)v.findViewById(R.id.supression);
+            viewHolder.supression= (ImageView)v.findViewById(R.id.supression);
             viewHolder.connexion= (TextView)v.findViewById(R.id.connexion);
             viewHolder.button= (TextView)v.findViewById(R.id.button);
             v.setTag(viewHolder);
@@ -58,7 +59,7 @@ public class PersonItemAdaptor extends BaseAdapter {
         Person person = person_list.get(position);
         String prenomNom = person.getPrenom()+" "+person.getNom();
         viewHolder.nom_prenom.setText(prenomNom);
-        viewHolder.supression.setText("supression");
+        //viewHolder.supression.setImageResource("supression");
         String connexion ="";
         if(person.isStatus()) connexion = "connecté";
         else connexion="Non connecté";
@@ -69,7 +70,7 @@ public class PersonItemAdaptor extends BaseAdapter {
 
     class PersonViewHolder{
         TextView nom_prenom;
-        TextView supression;
+        ImageView supression;
         TextView button;
         TextView connexion;
 
@@ -81,11 +82,11 @@ public class PersonItemAdaptor extends BaseAdapter {
             this.nom_prenom = nom_prenom;
         }
 
-        public TextView getSupression() {
+        public ImageView getSupression() {
             return supression;
         }
 
-        public void setSupression(TextView supression) {
+        public void setSupression(ImageView supression) {
             this.supression = supression;
         }
 

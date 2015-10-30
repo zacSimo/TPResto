@@ -11,6 +11,15 @@ public class Person {
     private String email;
     private String password;
     private String createdBy;
+    private String pays;
+
+    public String getPays() {
+        return pays;
+    }
+
+    public void setPays(String pays) {
+        this.pays = pays;
+    }
 
     public boolean isStatus() {
         return status;
@@ -21,10 +30,10 @@ public class Person {
     }
 
     private boolean status;
-    public Person(String s, String toString, String sexe, String string, String s1, String toString1, String s2) {
-    }
 
-    public Person(String nom, String prenom, String sexe, String telephone, String email, String password, String createdBy, boolean status) {
+
+    public Person(String nom, String prenom, String sexe, String telephone, String email, String password,
+                  String createdBy) {
         this.nom = nom;
         this.prenom = prenom;
         this.sexe = sexe;
@@ -33,7 +42,7 @@ public class Person {
         this.password = password;
         this.createdBy = createdBy;
         this.status = status;
-
+        //this.pays=pays;
     }
 
     public String getNom() {
