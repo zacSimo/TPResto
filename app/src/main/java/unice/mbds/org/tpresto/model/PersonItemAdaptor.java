@@ -20,7 +20,7 @@ public class PersonItemAdaptor extends BaseAdapter {
 
     public PersonItemAdaptor(Context context, List<Person> person) {
         this.context = context;
-        this.person_list = person_list;
+        this.person_list = person;
     }
 
     @Override

@@ -2,7 +2,6 @@ package unice.mbds.org.tpresto;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ListView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,20 +18,24 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import unice.mbds.org.tpresto.model.Person;
+import unice.mbds.org.tpresto.model.PersonItemAdaptor;
 
 public class ListeUserActivity extends AppCompatActivity {
     private Person person;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +52,7 @@ public class ListeUserActivity extends AppCompatActivity {
             }
         });
 
-
+        new MyTaskReceive().execute();
     }
 
     class MyTaskReceive extends AsyncTask<String, String, String> {
@@ -58,47 +61,33 @@ public class ListeUserActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... voids) {
+            StringBuilder builder = new StringBuilder();
             String url = "http://92.243.14.22/person/";
-            HttpClient client = null;
+            HttpClient client = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(url);
+
             try {
-                String readJSON = getJSON(url);
-                try{
-                    JSONObject jsonObject = new JSONObject(readJSON);
-                    Log.i(ListeUserActivity.class.getName(), jsonObject.getString("date"));
-                } catch(Exception e){e.printStackTrace();}
-                finally{System.out.println("Success");}
 
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet get = new HttpGet();
-                get.setHeader("Content-Type", "application/json");
-                URI server = new URI (url);
-                get.setURI(server);
-                HttpResponse reponse = httpclient.execute(get);
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(reponse.getEntity().getContent()));
-
-
-                JSONObject obj = new JSONObject();
-
-
-
-
-
-                StringBuffer result = new StringBuffer();
-                String line = "";
-                while ((line = reader.readLine()) != null) {
-                    result.append(line);
+                HttpResponse response = client.execute(httpGet);
+                StatusLine statusLine = response.getStatusLine();
+                int statusCode = statusLine.getStatusCode();
+                if (statusCode == 200) {
+                    HttpEntity entity = response.getEntity();
+                    InputStream content = entity.getContent();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        builder.append(line);
+                    }
+                } else {
+                    Log.e(ListeUserActivity.class.toString(), "Failed to download JSONObject");
                 }
-                Log.d("doInBackground(Resp)", result.toString());
-                // response = new JSONObject(result.toString());
-
-                ResultString = result.toString();
-                System.out.println(result.toString());
-                return ResultString;
-            } catch (Exception e) {
-
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return ResultString;
+            return builder.toString();
         }
 
         @Override
@@ -112,8 +101,30 @@ public class ListeUserActivity extends AppCompatActivity {
         protected void onPostExecute(String theResponse) {
             super.onPostExecute(theResponse);
             showProgressDialog(false);
-            Toast.makeText(ListeUserActivity.this, R.string.recuperation_ok, Toast.LENGTH_LONG).show();
-            startActivity(new Intent(ListeUserActivity.this, LoginActivity.class));
+            ListView lst = (ListView)findViewById(R.id.listView);
+            List<Person> person = new ArrayList<>();
+            try {
+                JSONArray array = new JSONArray(theResponse);
+                for(int i = 0; i<array.length(); i++){
+                    try{
+                    JSONObject ob = array.getJSONObject(i);
+                    Person p = new Person();
+                    p.setNom(ob.getString("nom"));
+                    p.setPrenom(ob.getString("prenom"));
+                    p.setEmail(ob.getString("email"));
+                    p.setSexe(ob.getString("sexe"));
+                    p.setTelephone(ob.getString("telephone"));
+                    p.setPassword(ob.getString("password"));
+
+                    person.add(p);}catch (Exception e){
+
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            PersonItemAdaptor adapter = new PersonItemAdaptor(ListeUserActivity.this, person);
+            lst.setAdapter(adapter);
         }
 
         ProgressDialog progressDialog = null;
@@ -122,7 +133,7 @@ public class ListeUserActivity extends AppCompatActivity {
             if (isVisible) {
                 if (progressDialog == null) {
                     progressDialog = new ProgressDialog(ListeUserActivity.this);
-                    progressDialog.setMessage(RegisterActivity.this.getResources().getString(R.string.please_wait));
+                    progressDialog.setMessage(ListeUserActivity.this.getResources().getString(R.string.please_wait));
                     progressDialog.setCancelable(false);
                     progressDialog.setIndeterminate(true);
                     progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -140,33 +151,33 @@ public class ListeUserActivity extends AppCompatActivity {
             }
         }
 
-        public String getJSON(String address){
+        public String getJSON(String address) {
             StringBuilder builder = new StringBuilder();
             HttpClient client = new DefaultHttpClient();
             HttpGet httpGet = new HttpGet(address);
-            try{
+            try {
                 HttpResponse response = client.execute(httpGet);
                 StatusLine statusLine = response.getStatusLine();
                 int statusCode = statusLine.getStatusCode();
-                if(statusCode == 200){
+                if (statusCode == 200) {
                     HttpEntity entity = response.getEntity();
                     InputStream content = entity.getContent();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(content));
                     String line;
-                    while((line = reader.readLine()) != null){
+                    while ((line = reader.readLine()) != null) {
                         builder.append(line);
                     }
                 } else {
-                    Log.e(ListeUserActivity.class.toString(),"Failed on JSON object");
+                    Log.e(ListeUserActivity.class.toString(), "Failed on JSON object");
                 }
-            }catch(ClientProtocolException e){
+            } catch (ClientProtocolException e) {
                 e.printStackTrace();
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return builder.toString();
         }
 
     }
-
 }
+

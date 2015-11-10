@@ -74,5 +74,11 @@
             android:background="#ffffffff"
             android:textColor="#19bcd5" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ListeUsers"
+            android:id="@+id/buttonListUsers" />
+
     </LinearLayout>
 </RelativeLayout>

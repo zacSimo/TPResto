@@ -31,6 +31,8 @@ public class Person {
 
     private boolean status;
 
+    public Person() {
+    }
 
     public Person(String nom, String prenom, String sexe, String telephone, String email, String password,
                   String createdBy) {
