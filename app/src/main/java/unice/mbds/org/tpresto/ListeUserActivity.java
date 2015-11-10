@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
 
 import unice.mbds.org.tpresto.model.Person;
 
@@ -67,23 +68,21 @@ public class ListeUserActivity extends AppCompatActivity {
                 } catch(Exception e){e.printStackTrace();}
                 finally{System.out.println("Success");}
 
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpGet get = new HttpGet();
                 get.setHeader("Content-Type", "application/json");
-                JSONObject obj = new JSONObject();
-                obj.put("prenom", person.getPrenom());
-                obj.put("nom", person.getNom());
-                obj.put("sexe", person.getSexe());
-                obj.put("email", person.getEmail());
-                obj.put("tel", person.getTelephone());
-                obj.put("password", person.getPassword());
-                obj.put("createdBy", person.getCreatedBy());
-
-                StringEntity entity = new StringEntity(obj.toString());
-
-
-                get.getEntity(entity);
-                HttpResponse response = client.execute(post);
+                URI server = new URI (url);
+                get.setURI(server);
+                HttpResponse reponse = httpclient.execute(get);
                 BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(response.getEntity().getContent()));
+                        new InputStreamReader(reponse.getEntity().getContent()));
+
+
+                JSONObject obj = new JSONObject();
+
+
+
+
 
                 StringBuffer result = new StringBuffer();
                 String line = "";
@@ -113,8 +112,8 @@ public class ListeUserActivity extends AppCompatActivity {
         protected void onPostExecute(String theResponse) {
             super.onPostExecute(theResponse);
             showProgressDialog(false);
-            Toast.makeText(RegisterActivity.this, R.string.inscription_ok, Toast.LENGTH_LONG).show();
-            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            Toast.makeText(ListeUserActivity.this, R.string.recuperation_ok, Toast.LENGTH_LONG).show();
+            startActivity(new Intent(ListeUserActivity.this, LoginActivity.class));
         }
 
         ProgressDialog progressDialog = null;
@@ -122,7 +121,7 @@ public class ListeUserActivity extends AppCompatActivity {
         public void showProgressDialog(boolean isVisible) {
             if (isVisible) {
                 if (progressDialog == null) {
-                    progressDialog = new ProgressDialog(RegisterActivity.this);
+                    progressDialog = new ProgressDialog(ListeUserActivity.this);
                     progressDialog.setMessage(RegisterActivity.this.getResources().getString(R.string.please_wait));
                     progressDialog.setCancelable(false);
                     progressDialog.setIndeterminate(true);

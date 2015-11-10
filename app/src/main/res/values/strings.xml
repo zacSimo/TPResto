@@ -6,7 +6,8 @@
     <string name="welcome_clent">Welcome</string>
     <string name="color_text">#19bcd5</string>
     <string name="please_wait">Patientez</string>
-    <string name="inscription_ok">OK</string>
+    <string name="inscription_ok">OK - Données enregistrées sur le Server</string>
+    <string name="recuperation_ok">OK - Données récupérées du Server</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
