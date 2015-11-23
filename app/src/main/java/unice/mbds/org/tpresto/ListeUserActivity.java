@@ -1,7 +1,10 @@
 package unice.mbds.org.tpresto;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -34,7 +37,23 @@ import unice.mbds.org.tpresto.model.Person;
 import unice.mbds.org.tpresto.model.PersonItemAdaptor;
 
 public class ListeUserActivity extends AppCompatActivity {
-    private Person person;
+
+    private  boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +75,6 @@ public class ListeUserActivity extends AppCompatActivity {
     }
 
     class MyTaskReceive extends AsyncTask<String, String, String> {
-        protected Exception exception = null;
-        protected String ResultString = "";
 
         @Override
         protected String doInBackground(String... voids) {
@@ -102,29 +119,32 @@ public class ListeUserActivity extends AppCompatActivity {
             super.onPostExecute(theResponse);
             showProgressDialog(false);
             ListView lst = (ListView)findViewById(R.id.listView);
-            List<Person> person = new ArrayList<>();
+            List<Person> persons = new ArrayList<>();
             try {
                 JSONArray array = new JSONArray(theResponse);
                 for(int i = 0; i<array.length(); i++){
                     try{
                     JSONObject ob = array.getJSONObject(i);
                     Person p = new Person();
-                    p.setNom(ob.getString("nom"));
-                    p.setPrenom(ob.getString("prenom"));
-                    p.setEmail(ob.getString("email"));
-                    p.setSexe(ob.getString("sexe"));
-                    p.setTelephone(ob.getString("telephone"));
-                    p.setPassword(ob.getString("password"));
-
-                    person.add(p);}catch (Exception e){
-
+                        if (ob.has("sexe"))  p.setSexe(ob.getString("sexe"));
+                        if (ob.has("email")) p.setEmail(ob.getString("email"));
+                        if (ob.has("password")) p.setPassword(ob.getString("password"));
+                        if (ob.has("createdBy")) p.setPassword(ob.getString("createdBy"));
+                        if (ob.has("prenom")) p.setPrenom(ob.getString("prenom"));
+                        if (ob.has("nom")) p.setNom(ob.getString("nom"));
+                        if (ob.has("telephone")) p.setTelephone(ob.getString("telephone"));
+                        if (ob.has("connected")) p.setStatus(ob.getBoolean("connected"));
+                    //if (p.getNom().contains("sim"))
+                      persons.add(p);
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            PersonItemAdaptor adapter = new PersonItemAdaptor(ListeUserActivity.this, person);
-            lst.setAdapter(adapter);
+            PersonItemAdaptor adapter = new PersonItemAdaptor(ListeUserActivity.this, persons);
+                lst.setAdapter(adapter);
         }
 
         ProgressDialog progressDialog = null;
@@ -151,32 +171,6 @@ public class ListeUserActivity extends AppCompatActivity {
             }
         }
 
-        public String getJSON(String address) {
-            StringBuilder builder = new StringBuilder();
-            HttpClient client = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(address);
-            try {
-                HttpResponse response = client.execute(httpGet);
-                StatusLine statusLine = response.getStatusLine();
-                int statusCode = statusLine.getStatusCode();
-                if (statusCode == 200) {
-                    HttpEntity entity = response.getEntity();
-                    InputStream content = entity.getContent();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        builder.append(line);
-                    }
-                } else {
-                    Log.e(ListeUserActivity.class.toString(), "Failed on JSON object");
-                }
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return builder.toString();
-        }
 
     }
 }

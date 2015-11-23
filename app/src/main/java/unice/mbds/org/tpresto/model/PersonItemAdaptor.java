@@ -1,6 +1,7 @@
 package unice.mbds.org.tpresto.model;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,10 +19,11 @@ public class PersonItemAdaptor extends BaseAdapter {
     private Context context;
     public List<Person> person_list;
 
-    public PersonItemAdaptor(Context context, List<Person> person) {
+    public PersonItemAdaptor(Context context, List<Person> persons) {
         this.context = context;
-        this.person_list = person;
+        this.person_list = persons;
     }
+
 
     @Override
     public int getCount() {
@@ -61,12 +63,20 @@ public class PersonItemAdaptor extends BaseAdapter {
         viewHolder.nom_prenom.setText(prenomNom);
         //viewHolder.supression.setImageResource("supression");
         String connexion ="";
-        if(person.isStatus()) connexion = "connecté";
-        else connexion="Non connecté";
-        viewHolder.connexion.setText("connexion");
+
+        if(person.isStatus()) {
+            connexion = "connecté";
+            viewHolder.button.setTextColor(Color.GREEN);
+        }
+        else {
+            connexion="Non connecté";
+            viewHolder.button.setTextColor(Color.RED);
+        }
+        viewHolder.connexion.setText(connexion);
         viewHolder.button.setText("button");
         return v;
     }
+
 
     class PersonViewHolder{
         TextView nom_prenom;
@@ -105,6 +115,7 @@ public class PersonItemAdaptor extends BaseAdapter {
         public void setConnexion(TextView connexion) {
             this.connexion = connexion;
         }
+
     }
 
 }

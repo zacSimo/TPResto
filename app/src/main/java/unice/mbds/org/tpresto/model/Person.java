@@ -34,17 +34,16 @@ public class Person {
     public Person() {
     }
 
-    public Person(String nom, String prenom, String sexe, String telephone, String email, String password,
-                  String createdBy) {
-        this.nom = nom;
-        this.prenom = prenom;
+    public Person( String sexe, String email, String password,
+                   String createdBy, String prenom, String nom, String telephone) {
         this.sexe = sexe;
-        this.telephone = telephone;
         this.email = email;
         this.password = password;
         this.createdBy = createdBy;
-        this.status = status;
-        //this.pays=pays;
+        this.prenom = prenom;
+        this.nom = nom;
+        this.telephone = telephone;
+
     }
 
     public String getNom() {

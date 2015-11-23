@@ -12,12 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
@@ -47,8 +45,17 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText usr;
     private EditText pwd1;
     private EditText pwd2;
+
+    protected String sexe;
     protected Person person;
 
+    public void setSexe(String sexe) {
+        this.sexe = sexe;
+    }
+
+    public String getSexe() {
+        return sexe;
+    }
     public static boolean checkTelephoneNumber(View v, String tel) {
         if (tel.length() == 10) {
             for (int i = 0; i < tel.length(); i++) {
@@ -65,7 +72,10 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    public static boolean isValidEmailAddress(String emailAddress) {
+    public static boolean isOkTelephonNumber(View v, String tel){
+        return  checkTelephoneNumber(v,tel);
+    }
+    public static boolean isValidEmailAddress(View v,String emailAddress) {
         String emailRegEx;
         Pattern pattern;
         // Regex for a valid email address
@@ -74,6 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
         pattern = Pattern.compile(emailRegEx);
         Matcher matcher = pattern.matcher(emailAddress);
         if (!matcher.find()) {
+            alertDialog(v,"Email Address","Adresse Email Non valide");
             return false;
         }
         return true;
@@ -97,6 +108,40 @@ public class RegisterActivity extends AppCompatActivity {
                 .show();
     }
 
+    public static boolean isValidNEqualsPwds(View v,String pwd1, String pwd2){
+        if(pwd1.isEmpty() || pwd2.isEmpty()){
+            alertDialog(v, "Password", "Empty Password");
+            return false;
+        }
+        else
+            if(pwd1.equals(pwd2))
+                return true;
+            else{
+                alertDialog(v, "Password", "Password différentes");
+                return false;
+            }
+    }
+
+    public static boolean isNotEmpty(View v,String string){
+        if (string.isEmpty()){
+            alertDialog(v, string, "Champ Vide!! Completer");
+            return false;
+        }
+        return  true;
+    }
+
+    public boolean isOkSexe(View v,RadioButton rbf,RadioButton rbm){
+        if(rbf.isChecked()){
+            setSexe("F") ;
+            return true;
+        }
+        else  if(rbm.isChecked()) {
+            setSexe("M");
+            return true;
+        }
+        else alertDialog(v, "Sexe","Choisir le sexe");
+        return false;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,16 +156,7 @@ public class RegisterActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        String [] countries = getResources().getStringArray(R.array.country_arrays);
-        Spinner sp = (Spinner) findViewById(R.id.spinnerCountry);
-        //Créer l'adapteur
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, countries);
-        //Associer l'adapteur à l'instance de la vue de groupe
-        sp.setAdapter(dataAdapter);
-        //Instance d'un layout inflater
-        //LayoutInflater inflater = (LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE);
-        //Utiliser l'inflater pour récupérer une vue à partir      d'un layout
-       // View rowView = inflater.inflate(R.layout.rowlayout,  parent, false);
+
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         etNom = (EditText) findViewById(R.id.editText);
         etPreNom = (EditText) findViewById(R.id.editText2);
@@ -136,75 +172,21 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final Intent intent = new Intent(v.getContext(), LoginActivity.class);
-                if ((etNom.getText().toString() != "") &&
-                        (etPreNom.getText().toString() != "") &&
-                        (tel.getText().toString() != "") &&
-                        (email.getText().toString() != "") &&
-                        (pwd1.getText().toString() != "") &&
-                        (pwd2.getText().toString() != "")) {
-                    String sexe = "";
-                    if(checkTelephoneNumber(v, tel.getText().toString()))
-                        if(!isValidEmailAddress(email.getText().toString()))
-                            alertDialog(v,"Email Address","Adresse Email Non valide");
-                        else if(!pwd1.getText().toString().equals(pwd2.getText().toString()))
-                            alertDialog(v, "Password", "Password différentes");
-                        else  if(rbf.isChecked()){
-//                            intent.putExtra("Sexe","Feminin");
-////                                            if(v.getId()==R.id.register){
-////                                               //Valider votre formulaire
-////                                               new MyTask().execute();
-////                                            }
-//                            startActivity(intent);
-                             sexe = "F";
-                        }
-                        else  if(rbm.isChecked()) {
-//                            intent.putExtra("Sexe","Masculin");
-////                                               if(v.getId()==R.id.register){
-////                                                   //Valider votre formulaire
-////                                                   new MyTask().execute();
-////                                               }
-//                            startActivity(intent);
-                              sexe = "M";
-                        }
-                        else alertDialog(v, "Sexe","Choisir le sexe");
 
+                if (    isNotEmpty(v,etNom.getText().toString()) &&
+                        isNotEmpty(v, etPreNom.getText().toString()) &&
+                        (isOkSexe(v,rbf,rbm)) &&
+                        (isOkTelephonNumber(v, tel.getText().toString())) &&
+                        (isValidEmailAddress(v,email.getText().toString())) &&
+                        (isValidNEqualsPwds(v, pwd1.getText().toString(),pwd2.getText().toString()))) {
 
-
-
-                    person = new Person(etNom.getText().toString(),etPreNom.getText().toString(),sexe,tel.getText().toString(),
-                            email.getText().toString(),pwd1.getText().toString(),"Zac&Soufiane" );
+                    person = new Person(sexe,email.getText().toString(),pwd1.getText().toString(),
+                            "Zac & Soufiane" ,etPreNom.getText().toString(),etNom.getText().toString(),
+                            tel.getText().toString());
                     new MyTask().execute();
-                    /*intent.putExtra("Nom",etNom.getText().toString());
-                    intent.putExtra("Prenom",etPreNom.getText().toString());
-                    intent.putExtra("Telephone", tel.getText().toString());
-                    intent.putExtra("email", email.getText().toString());
-                    intent.putExtra("Password", pwd1.getText().toString());
-                    if(checkTelephoneNumber(v, tel.getText().toString()))
-                       if(!isValidEmailAddress(email.getText().toString()))
-                           alertDialog(v,"Email Address","Adresse Email Non valide");
-                       else if(!pwd1.getText().toString().equals(pwd2.getText().toString()))
-                                 alertDialog(v, "Password", "Password différentes");
-                            else  if(rbf.isChecked()){
-                                            intent.putExtra("Sexe","Feminin");
-//                                            if(v.getId()==R.id.register){
-//                                               //Valider votre formulaire
-//                                               new MyTask().execute();
-//                                            }
-                                               startActivity(intent);
-                                    }
-                                  else  if(rbm.isChecked()) {
-                                            intent.putExtra("Sexe","Masculin");
-//                                               if(v.getId()==R.id.register){
-//                                                   //Valider votre formulaire
-//                                                   new MyTask().execute();
-//                                               }
-                                            startActivity(intent);
-                                        }
-                                       else alertDialog(v, "Sexe","Choisir le sexe");
-                    */
 
-                } else
-                    alertDialog(v, "Champs vides", "Veuillez vérifier les champs vides");
+
+                }
             }
         });
     }
@@ -220,22 +202,18 @@ public class RegisterActivity extends AppCompatActivity {
             try {
                 client = new DefaultHttpClient();
                 HttpPost post = new HttpPost(url);
-
                 // add header
-
                 post.setHeader("Content-Type", "application/json");
                 JSONObject obj = new JSONObject();
-                obj.put("prenom", person.getPrenom());
-                obj.put("nom", person.getNom());
                 obj.put("sexe", person.getSexe());
                 obj.put("email", person.getEmail());
-                obj.put("tel", person.getTelephone());
                 obj.put("password", person.getPassword());
                 obj.put("createdBy", person.getCreatedBy());
+                obj.put("prenom", person.getPrenom());
+                obj.put("nom", person.getNom());
+                obj.put("tel", person.getTelephone());
 
                 StringEntity entity = new StringEntity(obj.toString());
-
-
                 post.setEntity(entity);
                 HttpResponse response = client.execute(post);
                 BufferedReader reader = new BufferedReader(
