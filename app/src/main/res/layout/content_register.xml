@@ -58,17 +58,18 @@
         android:ems="10"
         android:id="@+id/editText3"
         android:drawableLeft="@drawable/ic_phone_iphone_24dp"
-        android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/editText2" />
+        android:layout_below="@id/editText2"
+        android:layout_alignEnd="@+id/editText2"
+        android:layout_marginBottom="10dp"/>
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/radioGroup"
         android:orientation="horizontal"
-        android:layout_below="@+id/editText2"
-        android:layout_marginBottom="15dp">
+        android:layout_below="@+id/editText3"
+        android:layout_marginBottom="10dp">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -76,21 +77,14 @@
             android:text="Feminin"
             android:id="@+id/radioButton2"
             android:checked="false"
-            android:layout_gravity="left|center_horizontal"
-            android:layout_above="@+id/editText3"
-            android:layout_alignEnd="@+id/button3"
-            android:layout_toEndOf="@+id/radioGroup" />
+            android:layout_gravity="left|center_horizontal" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Masculin"
             android:id="@+id/radioButton"
-            android:checked="false"
-            android:layout_above="@+id/radioButton2"
-            android:layout_alignRight="@+id/button3"
-            android:layout_alignParentStart="true"
-            android:layout_gravity="left|center_horizontal" />
+            android:checked="false" />
     </RadioGroup>
 
     <EditText
@@ -101,44 +95,46 @@
         android:ems="10"
         android:id="@+id/editText4"
         android:drawableLeft="@drawable/ic_mail_24dp"
-        android:layout_below="@+id/editText3"
+        android:layout_below="@+id/radioGroup"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/editText3" />
+        android:layout_alignEnd="@+id/editText2"
+        android:layout_marginBottom="10dp"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Mot de passe"
+        android:inputType="textPassword"
+        android:hint="Resaisir mot de passe"
         android:ems="10"
         android:id="@+id/editText5"
         android:drawableLeft="@drawable/ic_lock_24dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/editText6"
         android:layout_alignParentLeft="true"
-        android:layout_alignEnd="@+id/editText3" />
+        android:layout_alignEnd="@+id/editText2" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Resaisir mot passe"
+        android:hint="Mot de passe"
         android:ems="10"
         android:id="@+id/editText6"
         android:drawableLeft="@drawable/ic_lock_24dp"
         android:password="false"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/editText4"
+        android:layout_below="@id/editText4"
         android:layout_alignParentLeft="true"
-        android:layout_alignEnd="@+id/editText3" />
+        android:inputType="textPassword"
+        android:layout_alignEnd="@+id/editText2" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SE CONNECTER"
         android:id="@+id/button4"
         android:background="#19bcd5"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/editText6" />
+        android:layout_below="@+id/editText5"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"/>
 
 </RelativeLayout>

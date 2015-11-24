@@ -225,7 +225,6 @@ public class RegisterActivity extends AppCompatActivity {
                     result.append(line);
                 }
                 Log.d("doInBackground(Resp)", result.toString());
-                // response = new JSONObject(result.toString());
 
                 ResultString = result.toString();
                 System.out.println(result.toString());
