@@ -21,6 +21,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing emai completions."</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_welcome_client">WelcomeClientActivity</string>
+    <string name="texte_a_saisir">Veuillez saisir les informations</string>
 
     <string-array name="country_arrays">
         <item>Malaysia</item>

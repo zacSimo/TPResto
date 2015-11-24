@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="58dp"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:layout_alignEnd="@+id/editText4" />
 
     <EditText
@@ -34,7 +34,8 @@
         android:layout_below="@+id/textView4"
         android:layout_alignParentStart="true"
         android:layout_marginTop="15dp"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -47,7 +48,7 @@
         android:layout_below="@+id/editText"
         android:layout_alignEnd="@+id/editText"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
+        android:layout_marginBottom="10dp"/>
 
 
     <EditText
@@ -111,7 +112,9 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/editText6"
         android:layout_alignParentLeft="true"
-        android:layout_alignEnd="@+id/editText2" />
+        android:layout_alignEnd="@+id/editText2"
+        android:layout_marginBottom="10dp"
+        />
 
     <EditText
         android:layout_width="match_parent"
@@ -125,7 +128,8 @@
         android:layout_below="@id/editText4"
         android:layout_alignParentLeft="true"
         android:inputType="textPassword"
-        android:layout_alignEnd="@+id/editText2" />
+        android:layout_alignEnd="@+id/editText2"
+        android:layout_marginBottom="10dp"/>
 
     <Button
         android:layout_width="match_parent"

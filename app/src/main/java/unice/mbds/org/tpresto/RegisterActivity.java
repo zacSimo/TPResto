@@ -175,8 +175,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (    isNotEmpty(v,etNom.getText().toString()) &&
                         isNotEmpty(v, etPreNom.getText().toString()) &&
-                        (isOkSexe(v,rbf,rbm)) &&
                         (isOkTelephonNumber(v, tel.getText().toString())) &&
+                        (isOkSexe(v,rbf,rbm)) &&
                         (isValidEmailAddress(v,email.getText().toString())) &&
                         (isValidNEqualsPwds(v, pwd1.getText().toString(),pwd2.getText().toString()))) {
 

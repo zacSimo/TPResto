@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import org.apache.http.HttpEntity;
@@ -41,6 +42,7 @@ public class ListeUserActivity extends AppCompatActivity {
     private  boolean haveNetworkConnection() {
         boolean haveConnectedWifi = false;
         boolean haveConnectedMobile = false;
+
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo[] netInfo = cm.getAllNetworkInfo();
@@ -72,6 +74,15 @@ public class ListeUserActivity extends AppCompatActivity {
         });
 
         new MyTaskReceive().execute();
+        //logique de suppression
+        ImageButton delete = (ImageButton) findViewById(R.id.supression);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     class MyTaskReceive extends AsyncTask<String, String, String> {
