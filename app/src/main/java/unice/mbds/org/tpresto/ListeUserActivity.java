@@ -21,6 +21,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
@@ -31,13 +32,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.util.ArrayList;
 import java.util.List;
 
 import unice.mbds.org.tpresto.model.Person;
 import unice.mbds.org.tpresto.model.PersonItemAdaptor;
 
-public class ListeUserActivity extends AppCompatActivity {
+public class ListeUserActivity extends AppCompatActivity implements View.OnClickListener {
 
     private  boolean haveNetworkConnection() {
         boolean haveConnectedWifi = false;
@@ -83,6 +86,11 @@ public class ListeUserActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        new DeleteAccountTask().execute(v.getTag().toString());
     }
 
     class MyTaskReceive extends AsyncTask<String, String, String> {
@@ -145,6 +153,7 @@ public class ListeUserActivity extends AppCompatActivity {
                         if (ob.has("nom")) p.setNom(ob.getString("nom"));
                         if (ob.has("telephone")) p.setTelephone(ob.getString("telephone"));
                         if (ob.has("connected")) p.setStatus(ob.getBoolean("connected"));
+                        if (ob.has("id")) p.setStatus(ob.getBoolean("id"));
                     //if (p.getNom().contains("sim"))
                       persons.add(p);
                     }catch (Exception e){
@@ -184,5 +193,46 @@ public class ListeUserActivity extends AppCompatActivity {
 
 
     }
+
+
+    public class DeleteAccountTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String url = "http://92.243.14.22/person/"+params[0];
+            StringBuilder builder = null;
+            HttpClient client = new DefaultHttpClient();
+            HttpDelete httpDelete = new HttpDelete(url);
+            try {
+                HttpResponse response = client.execute(httpDelete);
+                StatusLine statusLine = response.getStatusLine();
+                int statusCode = statusLine.getStatusCode();
+                if (statusCode == 200) {
+                    HttpEntity entity = response.getEntity();
+                    InputStream content = entity.getContent();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        builder.append(line);
+                    }
+                } else {
+                    Log.e(ListeUserActivity.class.toString(), "Failed to download JSONObject");
+                }
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
 }
 

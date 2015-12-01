@@ -13,6 +13,10 @@ public class Person {
     private String createdBy;
     private String pays;
 
+
+
+    private String id;
+
     public String getPays() {
         return pays;
     }
@@ -93,7 +97,13 @@ public class Person {
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
+    public void setId(String id) {
+        this.id = id;
+    }
 
+    public String getId() {
+        return id;
+    }
     public String getEmail() {
         return email;
     }

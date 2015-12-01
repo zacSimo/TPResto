@@ -2,12 +2,31 @@ package unice.mbds.org.tpresto.model;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.List;
 
 import unice.mbds.org.tpresto.R;
@@ -18,10 +37,12 @@ import unice.mbds.org.tpresto.R;
 public class PersonItemAdaptor extends BaseAdapter {
     private Context context;
     public List<Person> person_list;
+    View.OnClickListener listener;
 
-    public PersonItemAdaptor(Context context, List<Person> persons) {
+    public PersonItemAdaptor(Context context, List<Person> persons, View.OnClickListener listener) {
         this.context = context;
         this.person_list = persons;
+        this.listener =listener;
     }
 
 
@@ -61,7 +82,7 @@ public class PersonItemAdaptor extends BaseAdapter {
         Person person = person_list.get(position);
         String prenomNom = person.getPrenom()+" "+person.getNom();
         viewHolder.nom_prenom.setText(prenomNom);
-        //viewHolder.supression.setImageResource("supression");
+
         String connexion ="";
 
         if(person.isStatus()) {
@@ -74,6 +95,10 @@ public class PersonItemAdaptor extends BaseAdapter {
         }
         viewHolder.connexion.setText(connexion);
         viewHolder.button.setText("button");
+        viewHolder.supression.setTag(person.getId());
+
+        //logique de suppression
+        viewHolder.supression.setOnClickListener( listener);
         return v;
     }
 
@@ -83,6 +108,7 @@ public class PersonItemAdaptor extends BaseAdapter {
         ImageView supression;
         TextView button;
         TextView connexion;
+
 
         public TextView getNom_prenom() {
             return nom_prenom;
