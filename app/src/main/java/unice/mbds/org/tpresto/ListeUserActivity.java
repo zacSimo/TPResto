@@ -98,7 +98,7 @@ public class ListeUserActivity extends AppCompatActivity implements View.OnClick
         @Override
         protected String doInBackground(String... voids) {
             StringBuilder builder = new StringBuilder();
-            String url = "http://92.243.14.22/person/";
+            String url = "http://92.243.14.22:1337/person/";
             HttpClient client = new DefaultHttpClient();
             HttpGet httpGet = new HttpGet(url);
 
