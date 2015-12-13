@@ -1,19 +1,15 @@
 package unice.mbds.org.tpresto;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ListView;
 
 import org.apache.http.HttpEntity;
@@ -32,8 +28,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,24 +36,6 @@ import unice.mbds.org.tpresto.model.PersonItemAdaptor;
 
 public class ListeUserActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private  boolean haveNetworkConnection() {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
-
-
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
-        }
-        return haveConnectedWifi || haveConnectedMobile;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,24 +43,7 @@ public class ListeUserActivity extends AppCompatActivity implements View.OnClick
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         new MyTaskReceive().execute();
-        //logique de suppression
-        ImageButton delete = (ImageButton) findViewById(R.id.supression);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
     }
 
@@ -153,7 +112,7 @@ public class ListeUserActivity extends AppCompatActivity implements View.OnClick
                         if (ob.has("nom")) p.setNom(ob.getString("nom"));
                         if (ob.has("telephone")) p.setTelephone(ob.getString("telephone"));
                         if (ob.has("connected")) p.setStatus(ob.getBoolean("connected"));
-                        if (ob.has("id")) p.setStatus(ob.getBoolean("id"));
+                        if (ob.has("id")) p.setId(ob.getString("id"));
                     //if (p.getNom().contains("sim"))
                       persons.add(p);
                     }catch (Exception e){
@@ -163,7 +122,24 @@ public class ListeUserActivity extends AppCompatActivity implements View.OnClick
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            PersonItemAdaptor adapter = new PersonItemAdaptor(ListeUserActivity.this, persons);
+            PersonItemAdaptor adapter = new PersonItemAdaptor(ListeUserActivity.this, persons, new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    AlertDialog.Builder adb=new AlertDialog.Builder(ListeUserActivity.this);
+                    adb.setTitle("Supprimer?");
+                    adb.setMessage("Etes-vous sure de vouloir supprimer? ");
+                    adb.setNegativeButton("Cancel", null);
+                    adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            new DeleteAccountTask().execute(v.getTag().toString());
+                            Intent intent = getIntent();
+                            finish(); //update de la page
+                            startActivity(intent);
+                        }});
+                    adb.show();
+
+               }
+            });
                 lst.setAdapter(adapter);
         }
 
@@ -199,8 +175,8 @@ public class ListeUserActivity extends AppCompatActivity implements View.OnClick
 
         @Override
         protected String doInBackground(String... params) {
-            String url = "http://92.243.14.22/person/"+params[0];
-            StringBuilder builder = null;
+            String url = "http://92.243.14.22:1337/person/"+params[0];
+            StringBuilder builder = new StringBuilder();
             HttpClient client = new DefaultHttpClient();
             HttpDelete httpDelete = new HttpDelete(url);
             try {
@@ -223,16 +199,9 @@ public class ListeUserActivity extends AppCompatActivity implements View.OnClick
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            return builder.toString();
         }
-
     }
 }
-}
+
 
