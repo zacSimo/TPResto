@@ -197,7 +197,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... voids) {
-            String url = "http://92.243.14.22/person/";
+            String url = "http://92.243.14.22:1337/person/";
             HttpClient client = null;
             try {
                 client = new DefaultHttpClient();
@@ -247,7 +247,7 @@ public class RegisterActivity extends AppCompatActivity {
             super.onPostExecute(theResponse);
             showProgressDialog(false);
             Toast.makeText(RegisterActivity.this, R.string.inscription_ok, Toast.LENGTH_LONG).show();
-            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            startActivity(new Intent(RegisterActivity.this, WelcomeActivity.class));
         }
 
         ProgressDialog progressDialog = null;
