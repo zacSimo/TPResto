@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/menu_name"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#8c179f" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageMenu"
+        android:layout_below="@+id/menu_name"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description menu"
+        android:id="@+id/menu_description"
+        android:layout_below="@+id/imageMenu"
+        android:layout_toEndOf="@+id/imageMenu"
+        android:layout_marginTop="55dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prix: "
+        android:id="@+id/menu_price"
+        android:layout_below="@+id/menu_description"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="39dp"
+        android:layout_marginRight="40dp"
+        android:textColor="#f58c0b"
+        android:textSize="18dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calories: "
+        android:id="@+id/menu_calories"
+        android:layout_below="@+id/menu_description"
+        android:layout_toEndOf="@+id/menu_price"
+        android:layout_marginTop="39dp"
+        android:layout_marginRight="40dp"
+        android:textColor="#f58c0b"
+        android:textSize="18dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dessert"
+        android:id="@+id/menu_dessert"
+        android:layout_below="@+id/menu_description"
+        android:layout_toEndOf="@+id/menu_calories"
+        android:layout_marginTop="39dp"
+        android:layout_marginRight="40dp"
+        android:textColor="#f58c0b"
+        android:textSize="18dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Discount"
+        android:id="@+id/menu_discount"
+        android:layout_below="@+id/menu_description"
+        android:layout_toEndOf="@+id/menu_dessert"
+        android:layout_marginTop="39dp"
+        android:textColor="#f58c0b"
+        android:textSize="18dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ajouter"
+        android:id="@+id/ajouter"
+        android:layout_below="@+id/menu_name"
+        android:layout_alignParentEnd="true"
+        android:background="@color/text_menu"
+        android:textColor="@color/white"/>
+</RelativeLayout>

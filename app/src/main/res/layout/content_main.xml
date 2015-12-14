@@ -78,7 +78,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ListeUsers"
-            android:id="@+id/buttonListUsers" />
+            android:id="@+id/buttonListUsers"
+            android:background="#ffffffff"
+            android:textColor="#19bcd5"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MENU TPRESTO"
+            android:id="@+id/buttonMenuTpresto"
+            android:background="#ffffffff"
+            android:textColor="#19bcd5"/>
 
     </LinearLayout>
 </RelativeLayout>

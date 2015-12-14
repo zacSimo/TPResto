@@ -1,35 +1,18 @@
 package unice.mbds.org.tpresto.model;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.os.AsyncTask;
-import android.util.Log;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.List;
 
-import unice.mbds.org.tpresto.R;
+import static unice.mbds.org.tpresto.R.drawable;
+import static unice.mbds.org.tpresto.R.id;
+import static unice.mbds.org.tpresto.R.layout;
 
 /**
  * Created by Zac on 30/10/2015.
@@ -68,13 +51,13 @@ public class PersonItemAdaptor extends BaseAdapter {
 
         PersonViewHolder viewHolder = null;
         if(v==null){
-            v = View.inflate(context, R.layout.layout_list_users, null);
+            v = View.inflate(context, layout.layout_list_users, null);
             viewHolder = new PersonViewHolder();
-            viewHolder.nom_prenom= (TextView)v.findViewById(R.id.NomPrenom);
-            viewHolder.supression= (ImageView)v.findViewById(R.id.supression);
-            viewHolder.connexion= (TextView)v.findViewById(R.id.connexion);
-            viewHolder.button= (TextView)v.findViewById(R.id.button);
-            v.setTag(viewHolder);
+            viewHolder.nom_prenom= (TextView)v.findViewById(id.NomPrenom);
+            viewHolder.supression= (ImageView)v.findViewById(id.supression);
+            viewHolder.connexion= (TextView)v.findViewById(id.connexion);
+            viewHolder.button= (TextView)v.findViewById(id.button);
+            v.setTag(viewHolder);// un Tag à travers lequel on recupere la reference ds 1 autre view
         }
         else{
             viewHolder = (PersonViewHolder) v.getTag();
@@ -87,17 +70,23 @@ public class PersonItemAdaptor extends BaseAdapter {
 
         if(person.isStatus()) {
             connexion = "connecté";
-            viewHolder.button.setTextColor(Color.GREEN);
+            Drawable  image = context.getResources().getDrawable(drawable.img_rond_green);
+            image.setBounds(0,0,60,60);
+            viewHolder.button.setCompoundDrawables(null,image,null,null);
+            //viewHolder.button.setTextColor(Color.GREEN);
         }
         else {
             connexion="Non connecté";
-            viewHolder.button.setTextColor(Color.RED);
+            Drawable  image = context.getResources().getDrawable(drawable.img_rond_red);
+            image.setBounds(0,0,60,60);
+            viewHolder.button.setCompoundDrawables(null, image, null, null);
+           // viewHolder.button.setTextColor(Color.RED);
         }
         viewHolder.connexion.setText(connexion);
-        viewHolder.button.setText("button");
+        viewHolder.button.setText("Buzzer");
         viewHolder.supression.setTag(person.getId());
 
-        //logique de suppression
+        //logique de suppression sur le webservice mais faudra rafraichir la liste
         viewHolder.supression.setOnClickListener( listener);
         return v;
     }
@@ -109,38 +98,6 @@ public class PersonItemAdaptor extends BaseAdapter {
         TextView button;
         TextView connexion;
 
-
-        public TextView getNom_prenom() {
-            return nom_prenom;
-        }
-
-        public void setNom_prenom(TextView nom_prenom) {
-            this.nom_prenom = nom_prenom;
-        }
-
-        public ImageView getSupression() {
-            return supression;
-        }
-
-        public void setSupression(ImageView supression) {
-            this.supression = supression;
-        }
-
-        public TextView getButton() {
-            return button;
-        }
-
-        public void setButton(TextView button) {
-            this.button = button;
-        }
-
-        public TextView getConnexion() {
-            return connexion;
-        }
-
-        public void setConnexion(TextView connexion) {
-            this.connexion = connexion;
-        }
 
     }
 

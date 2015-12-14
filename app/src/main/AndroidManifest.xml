@@ -38,7 +38,21 @@
         </activity>
         <activity
             android:name=".ListeUserActivity"
-            android:label="@string/title_activity_liste_user"
+            android:label="@string/title_activity_liste_user" >
+
+            <!-- android:theme="@style/AppTheme.NoActionBar" -->
+            >
+        </activity>
+        <activity
+            android:name=".ListeProductActivity"
+            android:label="@string/title_activity_liste_product"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity android:name=".ElementsCommandeActivity" >
+        </activity>
+        <activity
+            android:name=".GetProductWSActivity"
+            android:label="@string/title_activity_get_product_ws"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>

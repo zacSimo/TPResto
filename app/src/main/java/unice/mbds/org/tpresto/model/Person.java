@@ -1,9 +1,11 @@
 package unice.mbds.org.tpresto.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Zac on 27/10/2015.
  */
-public class Person {
+public class Person implements Serializable {
     private String nom;
     private String prenom;
     private String sexe;

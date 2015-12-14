@@ -323,7 +323,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected String doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            String url = "http://92.243.14.22/person/login";
+            String url = "http://92.243.14.22:1337/person/login";
             HttpClient client = null;
             try {
                 client = new DefaultHttpClient();

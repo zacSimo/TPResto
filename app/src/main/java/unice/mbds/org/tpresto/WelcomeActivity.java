@@ -1,9 +1,10 @@
 package unice.mbds.org.tpresto;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -12,20 +13,15 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        Bundle bundle = getIntent().getExtras();
-        String nom = bundle.getString("Nom");
-        String prenom = bundle.getString("Prenom");
-        String welcome = "BIENVENUE";
-        nom = welcome +"\n"+nom +"   "+prenom;
-        TextView textView = new TextView(this);
 
-        textView.setTextSize(70);
-        textView.setText(nom);
-        textView.setTextColor(0xFF19BCD5);
-        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        textView.setTop(80);
-        setContentView(textView);
-
+        ImageButton imageButton = (ImageButton) findViewById(R.id.imageButtonProducts);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), GetProductWSActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }

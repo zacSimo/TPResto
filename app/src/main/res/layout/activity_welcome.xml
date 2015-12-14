@@ -20,4 +20,5 @@
         android:textColor="#19dbC5"
         android:textAlignment="center"
         android:textSize="50dp" />
+    <include layout="@layout/content_welcome_client" />
 </RelativeLayout>
