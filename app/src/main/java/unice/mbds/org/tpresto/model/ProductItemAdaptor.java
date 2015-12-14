@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -68,6 +69,8 @@ public class ProductItemAdaptor extends ArrayAdapter<Product> {
             viewHolder.menu_calories = (TextView) v.findViewById(R.id.menu_calories);
             viewHolder.menu_discount = (TextView)v.findViewById(R.id.menu_discount);
             viewHolder.ajouter = (Button) v.findViewById(R.id.ajouter);
+
+
             v.setTag(viewHolder);
         }
         else{
@@ -90,7 +93,16 @@ public class ProductItemAdaptor extends ArrayAdapter<Product> {
         viewHolder.menu_discount.setText("Discount " + new Double(produit.getDiscount()).toString());
         viewHolder.ajouter.setText("Ajouter");
         viewHolder.ajouter.setTag(produit.getId());
-        viewHolder.ajouter.setOnClickListener(listener);
+        //viewHolder.ajouter.setOnClickListener(listener);
+
+        viewHolder.ajouter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(context, "Le produit a été ajouté Halala.", Toast.LENGTH_LONG).show();
+
+            }
+        });
 
 
         return v;
