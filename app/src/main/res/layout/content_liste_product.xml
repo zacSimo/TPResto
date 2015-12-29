@@ -25,6 +25,7 @@
         android:id="@+id/contenu_commande"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:background="@color/text_menu"
+        android:background="@drawable/btn_commande_prod"
+        android:textColor="@color/white"
         />
 </RelativeLayout>

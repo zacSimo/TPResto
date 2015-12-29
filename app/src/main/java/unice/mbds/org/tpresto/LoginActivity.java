@@ -28,6 +28,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -42,6 +43,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import unice.mbds.org.tpresto.model.Person;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -53,6 +56,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    public static Person person;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -108,6 +112,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     }
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -367,15 +372,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             JSONObject  obj = null;
             try {
                 obj = new JSONObject(result);
-                if(obj.has("success"))
+                if(obj.has("success")) {
                     success = obj.getBoolean("success");
+                    // JSONObject jsonObject = new JSONObject(result.toString());
+                    LoginActivity.person = new Person();
+
+                    LoginActivity.person.setId(obj.getJSONObject("user").getString("id"));
+                    LoginActivity.person.setNom(obj.getJSONObject("user").getString("nom"));
+                    LoginActivity.person.setPrenom(obj.getJSONObject("user").getString("prenom"));
+                    LoginActivity.person.setSexe(obj.getJSONObject("user").getString("sexe"));
+                    LoginActivity.person.setTelephone(obj.getJSONObject("user").getString("tel"));
+                    Toast.makeText(LoginActivity.this, "id:" + person.getId() + "\nnom:" + person.getNom() + "\nprenom:" + person.getPrenom(), Toast.LENGTH_LONG).show();
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
 
             if (success) {
-                startActivity(new Intent(LoginActivity.this, ListeUserActivity.class));
+                startActivity(new Intent(LoginActivity.this, WelcomeActivity.class));
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

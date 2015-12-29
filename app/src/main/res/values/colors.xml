@@ -6,4 +6,7 @@
     <color name="white">#FFFFFF</color>
     <color name="buzz_bg">#50beb7b7</color>
     <color name="text_menu">#f58c0b</color>
+    <color name="black">#000000</color>
+    <color name="entete_menu">#8C179F</color>
+    <color name="textColorMainActivity">#19bcd5</color>
 </resources>

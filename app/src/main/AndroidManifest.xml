@@ -27,33 +27,42 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:label="Enregistrez vous"
+            android:parentActivityName=".MainActivity" >
         </activity>
         <activity android:name=".WelcomeActivity" >
         </activity>
         <activity
             android:name=".ListeUserActivity"
-            android:label="@string/title_activity_liste_user" >
+            android:label="Liste Utilisateurs"
+            android:parentActivityName=".RegisterActivity">
 
             <!-- android:theme="@style/AppTheme.NoActionBar" -->
             >
         </activity>
         <activity
             android:name=".ListeProductActivity"
-            android:label="@string/title_activity_liste_product"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:label="Liste Produits"
+            android:parentActivityName=".WelcomeActivity">
         </activity>
-        <activity android:name=".ElementsCommandeActivity" >
+        <activity android:name=".ElementsCommandeActivity"
+                  android:label="Produits de la Commande"
+                  android:parentActivityName=".ListeProductActivity">
         </activity>
         <activity
-            android:name=".GetProductWSActivity"
-            android:label="@string/title_activity_get_product_ws"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:name=".GetCommandeWSActivity"
+            android:label="Liste Commandes du Serveur"
+            android:parentActivityName=".WelcomeActivity" >
+        </activity>
+        <activity android:name=".ListeProductFromCommandeActivity" >
+        </activity>
+        <activity android:name=".DetailProduitActivity"
+            android:label="Details du Produit"
+            android:parentActivityName=".ElementsCommandeActivity">
         </activity>
     </application>
 

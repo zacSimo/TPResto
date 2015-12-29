@@ -10,16 +10,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="type"
         android:id="@+id/type_choix"
+        android:textColor="@color/entete_menu"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Liste type"
+        android:text=" Liste type "
         android:id="@+id/liste_type"
+        android:background="@drawable/btn_commande_list_prod"
+        android:textColor="@color/text_menu"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
@@ -36,22 +40,34 @@
         android:layout_height="wrap_content"
         android:text="menu_name"
         android:id="@+id/menu_name_s"
-        android:layout_below="@+id/type_choix"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Voir le produit"
-        android:id="@+id/voir_produit"
         android:layout_below="@+id/imageType"
-        android:layout_alignStart="@+id/menu_name_s" />
+        android:layout_toStartOf="@+id/supprimer_produit" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Supprimer produit"
+        android:text="  Voir produit  "
+        android:id="@+id/voir_produit"
+        android:background="@drawable/btn_commande_prod"
+        android:textColor="@color/white"
+        android:layout_below="@+id/menu_name_s"
+        android:layout_marginLeft="270dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  Supprimer produit  "
         android:id="@+id/supprimer_produit"
+        android:background="@drawable/btn_commande_prod"
+        android:textColor="@color/white"
         android:layout_alignTop="@+id/voir_produit"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignEnd="@+id/liste_type" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Qté : "
+        android:id="@+id/quantite"
+        android:layout_below="@+id/type_choix"
+        android:layout_alignStart="@+id/menu_name_s" />
 </RelativeLayout>

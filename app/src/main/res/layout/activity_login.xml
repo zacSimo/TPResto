@@ -47,30 +47,14 @@
 
             <Button android:id="@+id/email_sign_in_button" style="?android:textAppearanceSmall"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" android:text="@string/action_sign_in"
+                android:layout_marginTop="16dp" android:text="@string/se_connecter"
                 android:textStyle="bold"
-                android:background="#19bcd5" />
+                android:background="@drawable/btn_connect_bg" />
 
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="ListUsers"
-        android:id="@+id/buttonListUsrs"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.08" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Mot de passe Oublié ?"
-        android:id="@+id/textView5"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.10"
-        android:textColor="#19bcd5"
-        android:textAlignment="center" />
+
 
 </LinearLayout>

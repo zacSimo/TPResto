@@ -24,13 +24,15 @@
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
             android:src="@drawable/mbdslogo"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="BIENVENUE"
+            android:textSize="40dp"
+            android:text="@string/bienvenue"
             android:id="@+id/textView2"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
@@ -39,29 +41,38 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Veuillez selectionner &apos;s&apos;enregistrer&apos; pour créer un compte "
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAlignment="center"
+            android:text="@string/msg_enregistrement"
             android:id="@+id/NomPrenom"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="12dp"
-            android:textColor="#19bcd5" />
+            android:textColor="@color/textColorMainActivity" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ou &apos;se connecter&apos; si vous en avez déjà un"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAlignment="center"
+            android:text="@string/msg_connexion"
             android:id="@+id/textView3"
             android:layout_gravity="center_horizontal"
             android:textColor="#19bcd5" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#19bcd5" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="S&apos;enregistrer"
             android:id="@+id/button"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:background="#19bcd5"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/btn_enreg_bg"
             android:textColor="#ffffff" />
 
         <Button
@@ -69,25 +80,10 @@
             android:layout_height="wrap_content"
             android:text="se connecter"
             android:id="@+id/button2"
-            android:layout_gravity="center_horizontal"
             android:longClickable="false"
-            android:background="#ffffffff"
+            android:background="@drawable/btn_connect_bg"
             android:textColor="#19bcd5" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ListeUsers"
-            android:id="@+id/buttonListUsers"
-            android:background="#ffffffff"
-            android:textColor="#19bcd5"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="MENU TPRESTO"
-            android:id="@+id/buttonMenuTpresto"
-            android:background="#ffffffff"
-            android:textColor="#19bcd5"/>
 
     </LinearLayout>
 </RelativeLayout>

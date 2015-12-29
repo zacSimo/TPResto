@@ -8,6 +8,7 @@
     <string name="please_wait">Patientez</string>
     <string name="inscription_ok">OK - Données enregistrées sur le Server</string>
     <string name="recuperation_ok">OK - Données récupérées du Server</string>
+    <string name="envoi_commande_ok">OK - Commande enregistrée sur le server</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -23,6 +24,11 @@
     <string name="title_activity_welcome_client">WelcomeClientActivity</string>
     <string name="texte_a_saisir">Veuillez saisir les informations</string>
     <string name="menu_choisi">Menu choisi</string>
+    <string name="se_connecter">se connecter</string>
+    <string name="s_enregistrer">s\'enregistrer</string>
+    <string name="bienvenue">BIENVENUE</string>
+    <string name="msg_enregistrement">Veuillez selectionner \"s\'enregistrer\" pour créer un compte </string>
+    <string name="msg_connexion">ou \"se connecter\" si vous en avez déjà un</string>
 
     <string-array name="country_arrays">
         <item>Malaysia</item>

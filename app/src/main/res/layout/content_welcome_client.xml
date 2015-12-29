@@ -29,5 +29,56 @@
         android:src="@drawable/images"
         android:layout_below="@+id/textView6"
         android:layout_centerHorizontal="true" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#19bcd5" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Liste Serveurs"
+        android:id="@+id/buttonListUsers"
+        android:background="@drawable/btn_connect_bg"
+        android:textColor="#19bcd5"
+        android:layout_below="@+id/buttonMenuTpresto"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#19bcd5" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ORDONNER MENU"
+        android:id="@+id/buttonMenuTpresto"
+        android:background="@drawable/btn_connect_bg"
+        android:textColor="#19bcd5"
+        android:layout_below="@+id/imageButtonProducts"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#19bcd5" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Liste Commandes"
+        android:id="@+id/buttonListCommandes"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/btn_connect_bg"
+        android:textColor="#19bcd5"
+        android:layout_below="@+id/buttonListUsers"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#19bcd5" />
 
 </RelativeLayout>

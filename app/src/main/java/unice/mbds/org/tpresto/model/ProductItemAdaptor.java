@@ -2,38 +2,40 @@ package unice.mbds.org.tpresto.model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.SparseBooleanArray;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import unice.mbds.org.tpresto.R;
-import unice.mbds.org.tpresto.utils.BitmapUtils;
+import unice.mbds.org.tpresto.database.OrderDbHelper;
+import unice.mbds.org.tpresto.database.ProduitdbHelper;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * Created by Zac on 12/12/2015.
  */
-public class ProductItemAdaptor extends ArrayAdapter<Product> {
-
+public class ProductItemAdaptor extends BaseAdapter {
+    OrderDbHelper orderDbHelper;
+    ProduitdbHelper produitdbHelper;
     private Context context;
-    public List<Product> products;
-    View.OnClickListener listener;
-    private SparseBooleanArray mSelectedItemsIds;
-    private LayoutInflater inflater;
-
-    public ProductItemAdaptor(Context context, int resourceId,List<Product> products) {
-        super(context,resourceId,products);//, View.OnClickListener listener
-        mSelectedItemsIds = new SparseBooleanArray();
+    protected List<Product> products;
+    protected Order order;
+    protected int quantite;
+    public ProductItemAdaptor(Context context,List<Product> products) {
         this.context = context;
         this.products = products;
-        this.inflater = LayoutInflater.from(context);
+        this.orderDbHelper = new OrderDbHelper(context);
+        context.deleteDatabase(orderDbHelper.getDatabaseName());
+//        this.produitdbHelper = new ProduitdbHelper(context);
+//        context.deleteDatabase(produitdbHelper.getDatabaseName());
     }
 
     @Override
@@ -56,7 +58,8 @@ public class ProductItemAdaptor extends ArrayAdapter<Product> {
 
         View v = convertView;
         Bitmap image = null;
-
+        Bitmap bitmap = null;
+        quantite = 0;
         ProductViewHolder viewHolder = null;
         if (v==null){
             v = View.inflate(context, R.layout.layout_list_product,null);
@@ -77,15 +80,30 @@ public class ProductItemAdaptor extends ArrayAdapter<Product> {
             viewHolder = (ProductViewHolder) v.getTag();
         }
 
-        Product produit = products.get(position);
+        final Product produit = products.get(position);
         viewHolder.menu_name.setText(produit.getName());
         viewHolder.menu_description.setText(produit.getDescription());
-        try {
-            image = BitmapUtils.loadBitmap(produit.getPicture());
-        }catch (Exception conn){
-            //image = g(R.drawable.images);
+
+        int i = 1;
+
+        final Field[] declaredFields = (R.drawable.class).getDeclaredFields();
+        for (Field field : declaredFields) {
+            final int drawableId;
+            try {
+                if(field.getName().equals(produit.getPicture())){
+                    drawableId = field.getInt(R.drawable.class);
+                    viewHolder.menu_image.setImageDrawable(context.getDrawable(drawableId));
+                    //Toast.makeText(context, "nom foto in R.drawable : "+field.getName(), Toast.LENGTH_LONG).show();
+                    break;
+                }
+
+                // DEBUG : Toast.makeText(context, "nom foto in R.drawable : "+field.getName(), Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                continue;
+            }
+
         }
-        viewHolder.menu_image.setImageBitmap(image);
+       // viewHolder.menu_image.setImageDrawable(context.getDrawable(R.drawable.dessert_0));
         viewHolder.menu_price.setText("Prix : " + new Double(produit.getPrice()).toString());
         viewHolder.menu_dessert.setText(produit.getType());
         viewHolder.menu_dessert.setTextColor(v.getResources().getColor(R.color.text_menu));
@@ -99,7 +117,31 @@ public class ProductItemAdaptor extends ArrayAdapter<Product> {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(context, "Le produit a été ajouté Halala.", Toast.LENGTH_LONG).show();
+                //order = produit;
+                Order data;
+                if((data=orderDbHelper.getOrderDb(produit.getId()))!=null) {
+                    quantite = parseInt(data.getQuantite());
+                    quantite++;
+                    data.setQuantite(Integer.toString(quantite));
+                    orderDbHelper.updateQuantite(data);
+                    System.out.println("\nCONTENU ORDER TROUVER IN DB Name: " + data.getName());
+                    System.out.println("\nCONTENU ORDER TROUVER IN DB Description: " + data.getDescription());
+                    System.out.println("\nCONTENU ORDER TROUVER IN DB Price: " + data.getPrice());
+                    System.out.println("\nCONTENU ORDER TROUVER IN DB Picture: " + data.getPicture());
+                    System.out.println("\nCONTENU ORDER TROUVER IN DB Discount: " + data.getDiscount());
+                    System.out.println("\nCONTENU ORDER TROUVER IN DB Type: " + data.getType());
+                    System.out.println("\nCONTENU ORDER TROUVER IN DB Id: " + data.getId());
+                    System.out.println("\nCONTENU ORDER TROUVER IN DB Calorie: " + data.getCalories());
+                    System.out.println("\nCONTENU ORDER TROUVER IN DB Quantité: " + data.getQuantite());
+                    Toast.makeText(context, "Ordre incrementé Quantité :"+data.getQuantite(), Toast.LENGTH_LONG).show();
+                }
+                else{
+                    order = new Order(produit.getName(),produit.getDescription(),produit.getPrice(),produit.getCalories(),
+                            produit.getType(),produit.getDiscount(),produit.getPicture(),produit.getDessert(),produit.getCreatedAt(),
+                            produit.getUpdatedAt(),produit.getId(),"1");
+                    orderDbHelper.insertOrder(order);
+                    Toast.makeText(context, "Ordre Ajouté :"+order.getQuantite(), Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -108,27 +150,6 @@ public class ProductItemAdaptor extends ArrayAdapter<Product> {
         return v;
     }
 
-
-    public void toggleSelection(int position){
-        selectView(position, !mSelectedItemsIds.get(position));
-    }
-
-    public void removeSelection(){
-        mSelectedItemsIds = new SparseBooleanArray();
-        notifyDataSetChanged();
-    }
-    private void selectView(int position, boolean b) {
-        if (b){
-            mSelectedItemsIds.put(position,b);
-        }else{
-            mSelectedItemsIds.delete(position);
-        }
-        notifyDataSetChanged();
-    }
-
-    public SparseBooleanArray getSelectedItemIds(){
-        return mSelectedItemsIds;
-    }
     class ProductViewHolder {
         TextView menu_name;
         ImageView menu_image;

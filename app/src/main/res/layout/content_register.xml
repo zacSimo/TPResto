@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Veuillez saisir vos informations"
+        android:textAppearance="?attr/actionMenuTextAppearance"
         android:id="@+id/textView4"
         android:textAlignment="center"
         android:textColor="#19bcd5"
@@ -136,7 +137,7 @@
         android:layout_height="wrap_content"
         android:text="SE CONNECTER"
         android:id="@+id/button4"
-        android:background="#19bcd5"
+        android:background="@drawable/btn_connect_bg"
         android:layout_below="@+id/editText5"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"/>

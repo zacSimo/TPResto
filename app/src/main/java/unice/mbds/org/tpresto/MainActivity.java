@@ -51,24 +51,7 @@ public class MainActivity extends AppCompatActivity {
                                       }
                                   }
         );
-        Button button3 = (Button) findViewById(R.id.buttonListUsers);
-        button3.setOnClickListener(new View.OnClickListener() {
-                                       @Override
-                                       public void onClick(View v) {
-                                           Intent intent = new Intent(v.getContext(), ListeUserActivity.class);
-                                           startActivity(intent);
-                                       }
-                                   }
-        );
-        Button button4 = (Button) findViewById(R.id.buttonMenuTpresto);
-        button4.setOnClickListener(new View.OnClickListener() {
-                                       @Override
-                                       public void onClick(View v) {
-                                           Intent intent = new Intent(v.getContext(), WelcomeActivity.class);
-                                           startActivity(intent);
-                                       }
-                                   }
-        );
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
