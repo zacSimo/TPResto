@@ -58,7 +58,10 @@
             android:label="Liste Commandes du Serveur"
             android:parentActivityName=".WelcomeActivity" >
         </activity>
-        <activity android:name=".ListeProductFromCommandeActivity" >
+        <activity android:name=".ListeProductFromCommandeActivity"
+            android:label="Liste Produits"
+            android:parentActivityName=".ListeProductActivity">
+
         </activity>
         <activity android:name=".DetailProduitActivity"
             android:label="Details du Produit"

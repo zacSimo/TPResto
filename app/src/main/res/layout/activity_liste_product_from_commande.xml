@@ -17,11 +17,20 @@
         android:layout_marginTop="67dp"/>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="retour"
         android:id="@+id/retour_listViewCommande"
         android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/btn_connect_bg"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ListeTypeProduit"
+        android:id="@+id/typeProd"
+        android:layout_alignTop="@+id/retour_listViewCommande"
         android:layout_alignParentStart="true"
-        android:background="@drawable/btn_commande_prod"/>
+        android:background="@drawable/btn_enreg_bg"/>
 </RelativeLayout>

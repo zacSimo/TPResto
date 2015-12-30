@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class ListeProductFromCommandeActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listViewDessert);
         Bundle extra = getIntent().getBundleExtra("extra");
         String typeProduit = (String) extra.getSerializable("typeProduit");
+        TextView typeProd = (TextView) findViewById(R.id.typeProd);
+        typeProd.setText("    Liste des "+typeProduit+"s    ");
         final ProductFromCommandeItemAdaptor adaptor = new ProductFromCommandeItemAdaptor(ListeProductFromCommandeActivity.this,products,typeProduit);
         listView.setAdapter(adaptor);
         Button retour = (Button) findViewById(R.id.retour_listViewCommande);

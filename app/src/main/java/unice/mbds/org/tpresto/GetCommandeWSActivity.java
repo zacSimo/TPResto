@@ -102,11 +102,11 @@ public class GetCommandeWSActivity extends AppCompatActivity {
                         if (ob.has("discount")) cmdF.setDiscount(ob.getString("discount"));
                         if (ob.has("server")){
                             JSONObject job = ob.getJSONObject("server");
-                            cmdF.getServer().setId(job.getString("id"));
+                            if(job.has("id")) cmdF.getServer().setId(job.getString("id"));
                         }
                         if (ob.has("cooker")) {
                             JSONObject job = ob.getJSONObject("cooker");
-                            cmdF.getServer().setId(job.getString("id"));
+                            if(job.has("id")) cmdF.getCooker().setId(job.getString("id"));
                         }
                         if (ob.has("items")){
                             jsonArray = ob.getJSONArray("items");
