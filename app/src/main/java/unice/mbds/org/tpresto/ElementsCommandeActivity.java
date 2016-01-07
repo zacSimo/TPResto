@@ -109,11 +109,18 @@ public class ElementsCommandeActivity extends AppCompatActivity  {
                 JSONObject obj = new JSONObject();
                 Integer priceTot = 0, discountTot = 0;
                 JSONArray jsonArr = new JSONArray();
-                JSONObject cmdObj = new JSONObject();
+                JSONObject cmdObj;
+                int it = 0;
                 for (Order order:orders){
-                    priceTot += parseInt(order.getPrice());
-                    discountTot += parseInt(order.getDiscount());
-                    cmdObj.put("id",order.getId());
+                    for(int i=0;i<parseInt(order.getQuantite());i++){
+                        cmdObj = new JSONObject();
+                        priceTot += parseInt(order.getPrice());
+                        discountTot += parseInt(order.getDiscount());
+                        cmdObj.put("id",order.getId());
+                        System.out.print("\nDEBUG ID : "+order.getId() );
+                        jsonArr.put(it,cmdObj);
+                        it++;
+                    }
                 }
                 discountTot = (discountTot/orders.size());
                 obj.put("price", priceTot.toString());
@@ -124,7 +131,6 @@ public class ElementsCommandeActivity extends AppCompatActivity  {
                 jsonAdd = new JSONObject();
                 jsonAdd.put("id",r.nextInt(999999));
                 obj.put("cooker", jsonAdd);
-                jsonArr.put(cmdObj);
                 obj.put("items", jsonArr);
 
                 StringEntity entity = new StringEntity(obj.toString());

@@ -57,14 +57,14 @@ public class CommandeWSItemsAdaptor extends BaseAdapter {
         }
 
         CommandeWS cmdsws = listCmdWS.get(position);
-        viewHolder.price.setText(cmdsws.getPrice());
-        viewHolder.disscount.setText(cmdsws.getDiscount());
-        viewHolder.server.setText(cmdsws.getServer().getId());
-        viewHolder.cooker.setText(cmdsws.getCooker().getId());
-        String str = null;
+        viewHolder.price.setText("Prix : "+cmdsws.getPrice());
+        viewHolder.disscount.setText("Discounnt : "+cmdsws.getDiscount());
+        viewHolder.server.setText("Serveur : "+cmdsws.getServer().getId());
+        viewHolder.cooker.setText("Cooker : "+cmdsws.getCooker().getId());
+        String str = "";
         for (int i=0;i<cmdsws.getItems().size();i++)
-            str = str+";\n"+cmdsws.getItems().get(i).getId();
-        viewHolder.items.setText(str);
+            str = str+"\n  id : "+cmdsws.getItems().get(i).getId();
+        viewHolder.items.setText("Contenu Ordre : "+str);
         return v;
     }
 

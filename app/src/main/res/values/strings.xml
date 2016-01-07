@@ -29,7 +29,6 @@
     <string name="bienvenue">BIENVENUE</string>
     <string name="msg_enregistrement">Veuillez selectionner \"s\'enregistrer\" pour créer un compte </string>
     <string name="msg_connexion">ou \"se connecter\" si vous en avez déjà un</string>
-
     <string-array name="country_arrays">
         <item>Malaysia</item>
         <item>United States</item>

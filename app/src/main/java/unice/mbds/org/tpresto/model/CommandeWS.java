@@ -74,18 +74,5 @@ public class CommandeWS {
         }
     }
 
-    public class Commande{
-        private String id;
 
-        public Commande() {
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-    }
 }

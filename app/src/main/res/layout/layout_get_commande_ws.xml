@@ -2,39 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#19bcd5" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="price : "
-        android:id="@+id/price_commande_ws" />
+        android:id="@+id/price_commande_ws"
+        android:textColor="@color/black"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="discount : "
-        android:id="@+id/discount_commande_ws" />
+        android:id="@+id/discount_commande_ws"
+        android:textColor="@color/black"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="server : "
-        android:id="@+id/server_commande_ws" />
+        android:id="@+id/server_commande_ws"
+        android:textColor="@color/black"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="cooker : "
-        android:id="@+id/cooker_commande_ws" />
+        android:id="@+id/cooker_commande_ws"
+        android:textColor="@color/black"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="items : "
-        android:id="@+id/items_commande_ws" />
+        android:id="@+id/items_commande_ws"
+        android:textColor="@color/black"/>
 </LinearLayout>

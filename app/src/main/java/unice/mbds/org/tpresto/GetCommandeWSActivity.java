@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import unice.mbds.org.tpresto.database.ProduitdbHelper;
+import unice.mbds.org.tpresto.model.Commande;
 import unice.mbds.org.tpresto.model.CommandeWS;
 import unice.mbds.org.tpresto.model.CommandeWSItemsAdaptor;
 import unice.mbds.org.tpresto.model.Product;
@@ -112,7 +113,9 @@ public class GetCommandeWSActivity extends AppCompatActivity {
                             jsonArray = ob.getJSONArray("items");
                             for (int k=0; k < jsonArray.length(); k++) {
                                 JSONObject object = jsonArray.getJSONObject(k);
-                                if (object.has("id")) cmdF.getItems().get(k).setId(object.getString("id"));
+                                if (object.has("id")){
+                                 cmdF.getItems().add(k, new Commande(object.getString("id")));
+                                }
                             }
                         }
                         listCmdWS.add(cmdF);
