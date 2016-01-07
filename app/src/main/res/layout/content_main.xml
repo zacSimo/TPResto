@@ -23,7 +23,7 @@
             android:layout_width="363dp"
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
-            android:src="@drawable/mbdslogo"
+            android:src="@drawable/accueil_1"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"/>
 

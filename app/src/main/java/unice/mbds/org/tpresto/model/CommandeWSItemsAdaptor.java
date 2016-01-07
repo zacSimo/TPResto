@@ -58,7 +58,7 @@ public class CommandeWSItemsAdaptor extends BaseAdapter {
 
         CommandeWS cmdsws = listCmdWS.get(position);
         viewHolder.price.setText("Prix : "+cmdsws.getPrice());
-        viewHolder.disscount.setText("Discounnt : "+cmdsws.getDiscount());
+        viewHolder.disscount.setText("Discount : "+cmdsws.getDiscount());
         viewHolder.server.setText("Serveur : "+cmdsws.getServer().getId());
         viewHolder.cooker.setText("Cooker : "+cmdsws.getCooker().getId());
         String str = "";
